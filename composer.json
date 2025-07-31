@@ -6,13 +6,20 @@
         "php"
     ],
     "require": {
-        "php": ">=7.0.0"
+        "php": "^8.3",
+        "ext-curl": "*"
     },
     "license": "MIT",
     "autoload": {
         "psr-4": {
             "Siushin\\Util\\": "src/"
-        }
+        },
+        "files": [
+            "src/Helper/Array.php",
+            "src/Helper/DateTime.php",
+            "src/Helper/Log.php",
+            "src/Helper/Request.php"
+        ]
     },
     "authors": [
         {
