@@ -1,0 +1,24 @@
+{
+    "name": "siushin/util",
+    "description": "常见PHP助手函数，如：String、Array、Request、DateTime，以及PHP工具类",
+    "type": "library",
+    "keywords": [
+        "php"
+    ],
+    "require": {
+        "php": ">=7.0.0"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Siushin\\Util\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "siushin",
+            "email": "siushin@163.com"
+        }
+    ],
+    "minimum-stability": "stable"
+}
