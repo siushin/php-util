@@ -36,7 +36,10 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "@php -r \"echo '\\n\\033[32m[ siushin/util 提示 ]\\033[0m 您正在使用开发版本，建议生产环境使用稳定版本\\n';\""
+            "Siushin\\Util\\Installer::postInstall"
+        ],
+        "post-update-cmd": [
+            "Siushin\\Util\\Installer::postInstall"
         ]
     }
 }
