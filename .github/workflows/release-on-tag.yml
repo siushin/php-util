@@ -1,31 +1,56 @@
-name: Create Release for siushin/util
+name: Auto Release for siushin/util
 
 on:
   push:
     tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+'  # 匹配 v1.0.0, v2.3.4 等语义化版本标签
+      - 'v[0-9]+.[0-9]+.[0-9]+'  # 匹配 v1.0.0, v2.3.4 等版本
 
 jobs:
   create-release:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      # 步骤 1: 检出代码
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # 获取完整历史记录，用于生成changelog
+          fetch-depth: 0  # 获取完整提交历史
 
+      # 步骤 2: 生成变更日志
       - name: Generate Changelog
         run: |
-          # 生成简版changelog
-          git log --pretty=format:"- %s (%h)" $(git describe --tags --abbrev=0 @^)..@ > CHANGELOG.md
-          echo "## Release Notes" >> CHANGELOG.md
+          # 获取上次发布的标签
+          PREVIOUS_TAG=$(git describe --tags --abbrev=0 $(git rev-list --tags --skip=1 --max-count=1) 2>/dev/null || true)
+          
+          # 如果是首次发布
+          if [ -z "$PREVIOUS_TAG" ]; then
+            echo "## Initial Release" > CHANGELOG.md
+            git log --pretty=format:"- %s (%h)" --reverse >> CHANGELOG.md
+          else
+            # 生成上次发布到当前版本的变更
+            echo "## Changes since $PREVIOUS_TAG" > CHANGELOG.md
+            git log --pretty=format:"- %s (%h)" $PREVIOUS_TAG..HEAD >> CHANGELOG.md
+          fi
+          
+          # 添加标题
+          echo -e "# Release ${{ github.ref_name }}\n$(cat CHANGELOG.md)" > CHANGELOG.md
           cat CHANGELOG.md
 
-      - name: Create GitHub Release
+      # 步骤 3: 创建源码包
+      - name: Create Source ZIP
+        run: |
+          ZIP_NAME="siushin-util-${{ github.ref_name }}.zip"
+          zip -r $ZIP_NAME . -x '.git/*' '.github/*' 'vendor/*' 'tests/*'
+          echo "ZIP_FILE=$ZIP_NAME" >> $GITHUB_ENV
+
+      # 步骤 4: 创建 GitHub Release
+      - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          name: Release ${{ github.ref_name }}
+          tag_name: ${{ github.ref_name }}
+          name: "Release ${{ github.ref_name }}"
           body_path: CHANGELOG.md
+          files: |
+            ${{ env.ZIP_NAME }}
           draft: false
           prerelease: false
         env:
