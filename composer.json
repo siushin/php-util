@@ -15,16 +15,17 @@
             "Siushin\\Util\\": "src/"
         },
         "files": [
-            "src/Helper/Array.php",
-            "src/Helper/DateTime.php",
-            "src/Helper/Log.php",
-            "src/Helper/Request.php"
+            "src/Funcs/FuncArray.php",
+            "src/Funcs/FuncDateTime.php",
+            "src/Funcs/FuncLog.php",
+            "src/Funcs/FuncRequest.php"
         ]
     },
     "authors": [
         {
             "name": "siushin",
-            "email": "siushin@163.com"
+            "email": "siushin@163.com",
+            "homepage": "http://www.siushin.com"
         }
     ],
     "minimum-stability": "dev",
