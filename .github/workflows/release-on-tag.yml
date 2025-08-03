@@ -8,6 +8,10 @@ on:
 jobs:
   create-release:
     runs-on: ubuntu-latest
+    # 添加必要的权限声明
+    permissions:
+      contents: write
+
     steps:
       # 步骤 1: 检出代码
       - name: Checkout repository
@@ -43,19 +47,22 @@ jobs:
           zip -r $ZIP_NAME . -x '.git/*' '.github/*' 'vendor/*' 'tests/*'
           echo "ZIP_FILE=$ZIP_NAME" >> $GITHUB_ENV
 
-      # 步骤 4: 创建 GitHub Release
+      # 步骤 4: 安装 GitHub CLI
+      - name: Install GitHub CLI
+        run: sudo apt update && sudo apt install gh -y
+
+      # 步骤 5: 配置 GitHub 认证
+      - name: Setup GitHub Auth
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # 步骤 6: 创建 GitHub Release
       - name: Create Release
-        uses: softprops/action-gh-release@v1
-        with:
-          # 添加重试配置
-          retries: 3
-          retry_wait: 5000  # 毫秒
-          tag_name: ${{ github.ref_name }}
-          name: "Release ${{ github.ref_name }}"
-          body_path: CHANGELOG.md
-          files: |
+        run: |
+          gh release create ${{ github.ref_name }} \
+            --title "Release ${{ github.ref_name }}" \
+            --notes-file CHANGELOG.md \
             ${{ env.ZIP_NAME }}
-          draft: false
-          prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
