@@ -37,6 +37,7 @@ jobs:
 
       # 步骤 3: 创建源码包
       - name: Create Source ZIP
+        timeout-minutes: 5  # 添加超时限制
         run: |
           ZIP_NAME="siushin-util-${{ github.ref_name }}.zip"
           zip -r $ZIP_NAME . -x '.git/*' '.github/*' 'vendor/*' 'tests/*'
@@ -46,6 +47,9 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
+          # 添加重试配置
+          retries: 3
+          retry_wait: 5000  # 毫秒
           tag_name: ${{ github.ref_name }}
           name: "Release ${{ github.ref_name }}"
           body_path: CHANGELOG.md
