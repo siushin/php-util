@@ -8,7 +8,6 @@ on:
 jobs:
   create-release:
     runs-on: ubuntu-latest
-    # 添加必要的权限声明
     permissions:
       contents: write
 
@@ -51,18 +50,11 @@ jobs:
       - name: Install GitHub CLI
         run: sudo apt update && sudo apt install gh -y
 
-      # 步骤 5: 配置 GitHub 认证
-      - name: Setup GitHub Auth
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # 步骤 6: 创建 GitHub Release
+      # 步骤 5: 创建 GitHub Release（简化认证）
       - name: Create Release
         run: |
-          gh release create ${{ github.ref_name }} \
+          # 使用环境变量直接认证
+          GH_TOKEN=${{ secrets.GITHUB_TOKEN }} gh release create ${{ github.ref_name }} \
             --title "Release ${{ github.ref_name }}" \
             --notes-file CHANGELOG.md \
             ${{ env.ZIP_NAME }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
