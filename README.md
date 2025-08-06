@@ -1,12 +1,12 @@
 # PHP常用工具集
 
-👤 作者：<https://github.com/siushin>
-
-💻 个人博客：<http://www.siushin.com>
-
-📮 邮箱：<a href="mailto:siushin@163.com">siushin@163.com</a>
-
 PHP常用工具集，如：常用工具类及助手函数，如：String、Array、Request、DateTime。
+
+## 开始使用
+
+```shell
+composer require siushin/util
+```
 
 ## 目录结构
 
@@ -21,6 +21,16 @@ src  源代码目录
 │  └─ParamTool.php                   常用Param参数处理助手函数
 ├─Installer.php        composer命令钩子
 ```
+
+## 🧑🏻‍💻 关于作者
+
+十年开发经验，具有丰富的前、后端软件开发经验~
+
+👤 作者：<https://github.com/siushin>
+
+💻 个人博客：<http://www.siushin.com>
+
+📮 邮箱：<a href="mailto:siushin@163.com">siushin@163.com</a>
 
 ## 💡 反馈交流
 
