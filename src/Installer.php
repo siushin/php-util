@@ -4,6 +4,11 @@ namespace Siushin\Util;
 
 class Installer
 {
+    /**
+     * 检测当前 Laravel 版本
+     * @return void
+     * @author siushin<siushin@163.com>
+     */
     public static function postInstall(): void
     {
         $version = self::detectVersion();
@@ -14,6 +19,11 @@ class Installer
         }
     }
 
+    /**
+     * 尝试从Git标签获取版本
+     * @return string
+     * @author siushin<siushin@163.com>
+     */
     private static function detectVersion(): string
     {
         // 尝试从Git标签获取版本

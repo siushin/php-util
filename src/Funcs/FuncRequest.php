@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * 助手函数：请求
@@ -11,6 +10,7 @@ declare(strict_types=1);
  * @param string $path
  * @param array  $queryData
  * @return string
+ * @author siushin<siushin@163.com>
  */
 function httpBuildUrl(string $url, string $path = '', array $queryData = []): string
 {
@@ -43,6 +43,7 @@ function httpBuildUrl(string $url, string $path = '', array $queryData = []): st
  * @param array $extend_data
  * @return array
  * @throws Exception
+ * @author siushin<siushin@163.com>
  */
 function baseHandleCurl($ch, array $headers = [], array $extend_data = []): array
 {
@@ -96,6 +97,7 @@ function baseHandleCurl($ch, array $headers = [], array $extend_data = []): arra
  * @param array  $extend_data
  * @return array
  * @throws Exception
+ * @author siushin<siushin@163.com>
  */
 function httpGet(string $url, array $queryData = [], array $headers = [], array $extend_data = []): array
 {
@@ -117,6 +119,7 @@ function httpGet(string $url, array $queryData = [], array $headers = [], array 
  * @param array  $extend_data
  * @return array
  * @throws Exception
+ * @author siushin<siushin@163.com>
  */
 function httpPost(string $url, array $postData = [], array $headers = [], string $field_type = 'form', array $extend_data = []): array
 {
@@ -147,6 +150,7 @@ function httpPost(string $url, array $postData = [], array $headers = [], string
  * @param array  $extend_data
  * @return array
  * @throws Exception
+ * @author siushin<siushin@163.com>
  */
 function httpQueryPost(string $url, array $queryData = [], array $headers = [], array $extend_data = []): array
 {
@@ -161,6 +165,7 @@ function httpQueryPost(string $url, array $queryData = [], array $headers = [], 
  * @param array  $extend_data
  * @return array
  * @throws Exception
+ * @author siushin<siushin@163.com>
  */
 function httpJsonPost(string $url, array $jsonData = [], array $headers = [], array $extend_data = []): array
 {

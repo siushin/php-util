@@ -1,12 +1,11 @@
 <?php
-declare(strict_types=1);
 
 namespace Siushin\Util\Traits;
 
 use Exception;
 
 /**
- * 工具类：参数
+ * 工具类：常用Param参数处理助手函数
  */
 trait ParamTool
 {
@@ -16,6 +15,7 @@ trait ParamTool
      * @param string $field
      * @param int    $default
      * @return int
+     * @author siushin<siushin@163.com>
      */
     public static function getIntValue(array $params, string $field, int $default = 0): int
     {
@@ -35,6 +35,7 @@ trait ParamTool
      * @param bool   $throw_exp
      * @return int|null
      * @throws Exception
+     * @author siushin<siushin@163.com>
      */
     public static function getIntValOrNull(array $params, string $param_key, bool $throw_exp = true): ?int
     {
@@ -56,6 +57,7 @@ trait ParamTool
      * @param string|null $param_type
      * @return mixed
      * @throws Exception
+     * @author siushin<siushin@163.com>
      */
     public static function getQueryParam(array $params, string $param_key, mixed $default = null, string $exp_type = '', string $param_type = null): mixed
     {
@@ -100,6 +102,7 @@ trait ParamTool
      * @param array $param_keys
      * @return array
      * @throws Exception
+     * @author siushin<siushin@163.com>
      */
     public static function getQueryParams(array $params, array $param_keys): array
     {
@@ -126,6 +129,7 @@ trait ParamTool
      * @param array $only_empty_check 指定空检测字段
      * @return void
      * @throws Exception
+     * @author siushin<siushin@163.com>
      */
     public static function checkEmptyParam(array $params, array $check_fields, bool $strict_check = true, array $only_empty_check = []): void
     {
@@ -151,6 +155,7 @@ trait ParamTool
      * @param array $fields
      * @param mixed $default
      * @return array
+     * @author siushin<siushin@163.com>
      */
     public static function getFieldsWithDefault(array $array, array $fields, mixed $default = null): array
     {
@@ -165,6 +170,7 @@ trait ParamTool
      * @param array $data
      * @param array $fields
      * @return array
+     * @author siushin<siushin@163.com>
      */
     public static function filterFieldArray(array $data, array $fields): array
     {

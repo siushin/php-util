@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * 助手函数：日志、调试
@@ -13,6 +12,7 @@ declare(strict_types=1);
  * @param string $end_placeholder
  * @param int    $char_num
  * @return void
+ * @author siushin<siushin@163.com>
  */
 function user_dump(mixed $data, string $flag = '', string $start_placeholder = '<', string $end_placeholder = '>', int $char_num = 16): void
 {

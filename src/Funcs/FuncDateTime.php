@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * 助手函数：日期时间
@@ -8,6 +7,7 @@ declare(strict_types=1);
 /**
  * 获取当前时间、时间戳数组
  * @return array
+ * @author siushin<siushin@163.com>
  */
 function getDateTimeArr(): array
 {
@@ -22,6 +22,7 @@ function getDateTimeArr(): array
  * @param string $endDate
  * @param string $sort
  * @return array
+ * @author siushin<siushin@163.com>
  */
 function genDateListByRange(string $startDate, string $endDate, string $sort = 'asc'): array
 {
@@ -39,6 +40,7 @@ function genDateListByRange(string $startDate, string $endDate, string $sort = '
  * 验证是否是日期
  * @param $date
  * @return bool
+ * @author siushin<siushin@163.com>
  */
 function validateDate($date): bool
 {
@@ -52,6 +54,7 @@ function validateDate($date): bool
  * @param $endAt
  * @return bool
  * @throws Exception
+ * @author siushin<siushin@163.com>
  */
 function isCurrentTimeWithinRange($startAt, $endAt): bool
 {
@@ -67,6 +70,7 @@ function isCurrentTimeWithinRange($startAt, $endAt): bool
  * @param string $suffix
  * @param bool   $with_timestamp_suffix
  * @return string
+ * @author siushin<siushin@163.com>
  */
 function buildDateFilePath(string $filename, string $suffix, bool $with_timestamp_suffix = true): string
 {

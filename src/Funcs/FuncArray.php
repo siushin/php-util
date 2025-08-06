@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * 助手函数：数组
@@ -11,6 +10,7 @@ declare(strict_types=1);
  * @param string $joiner    连接符
  * @param string $separator 分隔符
  * @return string
+ * @author siushin<siushin@163.com>
  */
 function array_to_string_chain(array $array, string $joiner = ':', string $separator = ','): string
 {
@@ -23,6 +23,7 @@ function array_to_string_chain(array $array, string $joiner = ':', string $separ
  * @param string $joiner    连接符
  * @param string $separator 分隔符
  * @return string
+ * @author siushin<siushin@163.com>
  */
 function enum_to_string_chain(array $array, string $joiner = ':', string $separator = ','): string
 {
@@ -34,6 +35,7 @@ function enum_to_string_chain(array $array, string $joiner = ':', string $separa
  * @param BackedEnum $enum
  * @param string     $response_type
  * @return array
+ * @author siushin<siushin@163.com>
  */
 function enum_to_array(BackedEnum $enum, string $response_type = 'object'): array
 {
@@ -53,6 +55,7 @@ function enum_to_array(BackedEnum $enum, string $response_type = 'object'): arra
  * @param array $array
  * @param array $arrays
  * @return array
+ * @author siushin<siushin@163.com>
  */
 function user_array_diff(array $array, array $arrays): array
 {
@@ -65,6 +68,7 @@ function user_array_diff(array $array, array $arrays): array
  * @param string|int|null $column_key
  * @param string|int|null $index_key
  * @return array
+ * @author siushin<siushin@163.com>
  */
 function user_array_column_unique(array $array, string|int|null $column_key, string|int|null $index_key = null): array
 {
@@ -79,6 +83,7 @@ function user_array_column_unique(array $array, string|int|null $column_key, str
  * @param array       $data
  * @param string|null $key
  * @return array
+ * @author siushin<siushin@163.com>
  */
 function array_push_by_key(array $array, array $data = [], string $key = null): array
 {
@@ -93,6 +98,7 @@ function array_push_by_key(array $array, array $data = [], string $key = null): 
  * @param array $array
  * @param array $get_keys
  * @return array
+ * @author siushin<siushin@163.com>
  */
 function user_get_fields_array(array $array, array $get_keys): array
 {
@@ -104,6 +110,7 @@ function user_get_fields_array(array $array, array $get_keys): array
  * @param array $array
  * @param array $remove_keys
  * @return array
+ * @author siushin<siushin@163.com>
  */
 function user_filter_array(array $array, array $remove_keys): array
 {
@@ -115,6 +122,7 @@ function user_filter_array(array $array, array $remove_keys): array
  * @param array $array2
  * @param array $remove_keys
  * @return array
+ * @author siushin<siushin@163.com>
  */
 function user_filter_array2(array $array2, array $remove_keys): array
 {
@@ -129,6 +137,7 @@ function user_filter_array2(array $array2, array $remove_keys): array
  * @param array $newData
  * @param array $oldData
  * @return array
+ * @author siushin<siushin@163.com>
  */
 function compareArray(array $newData, array $oldData): array
 {

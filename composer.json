@@ -1,6 +1,6 @@
 {
     "name": "siushin/util",
-    "description": "常见PHP助手函数，如：String、Array、Request、DateTime，以及PHP工具类",
+    "description": "PHP常用工具集，如：常用工具类及助手函数，如：String、Array、Request、DateTime。",
     "type": "library",
     "keywords": [
         "php"
