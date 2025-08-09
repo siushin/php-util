@@ -32,12 +32,12 @@ function enum_to_string_chain(array $array, string $joiner = ':', string $separa
 
 /**
  * 枚举转数组
- * @param BackedEnum $enum
- * @param string     $response_type
+ * @param array  $enum
+ * @param string $response_type
  * @return array
  * @author siushin<siushin@163.com>
  */
-function enum_to_array(BackedEnum $enum, string $response_type = 'object'): array
+function enum_to_array(array $enum, string $response_type = 'object'): array
 {
     $array = [];
     foreach ($enum as $item) {
