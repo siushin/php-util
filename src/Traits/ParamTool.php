@@ -166,14 +166,70 @@ trait ParamTool
     }
 
     /**
-     * 筛选字段数组
-     * @param array $data
-     * @param array $fields
-     * @return array
+     * 从原始数组中筛选出指定的键值对
+     *
+     * 通过键名白名单的方式，仅保留数组中指定的键值对。适用于：
+     * - API响应字段过滤
+     * - 数据脱敏处理
+     * - 数据库查询结果字段筛选
+     *
+     * @param array $data 原始数据数组（关联数组或索引数组）
+     * @param array $keys 需要保留的键名列表（数组键名白名单）
+     *                    - 如果键不存在于原数组，则会被忽略
+     *                    - 支持字符串键名和数字索引
+     *
+     * @return array 过滤后的新数组，仅包含$keys中存在的键名对应的值
+     *              - 保留原始数组中的键值顺序
+     *              - 不会修改原始数组
+     *
+     * @example
+     *   getArrayByKeys(
+     *     ['id' => 1, 'name' => 'Tom', 'age' => 20],
+     *     ['name', 'gender']  // 'gender'不存在会被忽略
+     *   );
+     *   // 返回：['name' => 'Tom']
+     *
      * @author siushin<siushin@163.com>
      */
-    public static function filterFieldArray(array $data, array $fields): array
+    public static function getArrayByKeys(array $data, array $keys): array
     {
-        return array_intersect_key($data, array_flip($fields));
+        return array_intersect_key($data, array_flip($keys));
+    }
+
+    /**
+     * 从数组中移除指定的值（直接修改原数组）
+     * @param array &$array     要处理的原始数组（引用传递）
+     * @param array  $keys      只在指定的键中检查（空数组表示检查所有键）
+     * @param array  $values    需要移除的值列表（默认移除：'', null, 'null'）
+     * @param bool   $recursive 是否递归处理嵌套数组（默认false）
+     * @param bool   $strict    是否严格比较值（默认false，如0=='0'）
+     * @return array 处理后的数组（同时会修改原数组）
+     * @author siushin<siushin@163.com>
+     */
+    public static function trimValueArray(
+        array &$array,
+        array $keys = [],
+        array $values = ['', null, 'null'],
+        bool  $recursive = false,
+        bool  $strict = false
+    ): array
+    {
+        foreach ($array as $key => $item) {
+            // 处理嵌套数组（仅在递归模式下）
+            if (is_array($item) && $recursive) {
+                $array[$key] = self::trimValueArray($item, $keys, $values, true, $strict);
+                continue;
+            }
+
+            // 检查是否需要处理当前键
+            $shouldProcess = empty($keys) || in_array($key, $keys, $strict);
+
+            // 如果值在移除列表中，则移除该键值对
+            if ($shouldProcess && in_array($item, $values, $strict)) {
+                unset($array[$key]);
+            }
+        }
+
+        return $array;
     }
 }
