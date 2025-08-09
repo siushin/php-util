@@ -5,7 +5,7 @@ namespace Siushin\Util;
 class Installer
 {
     /**
-     * composer命令运行安装钩子
+     * Composer 安装/更新后执行的钩子
      * @return void
      * @author siushin<siushin@163.com>
      */
@@ -13,6 +13,11 @@ class Installer
     {
         $packageName = self::getPackageName();
         $authors = self::getPackageAuthors();
+
+        // 如果未获取到包名，则可能是 util 包自身安装，使用自己的包名
+        if (empty($packageName)) {
+            $packageName = 'siushin/util';
+        }
 
         $startTag = str_repeat('*', 64);
         echo "\n\033[32m$startTag\033[0m";
@@ -23,7 +28,7 @@ class Installer
 
         if (!empty($authors)) {
             echo "\n\033[34m🖋️ 作者信息：\033[0m\n";
-            $author = $authors[0]; // 直接取第一个作者
+            $author = $authors[0];
             echo "\t\033[90m姓名：\033[0m " . ($author['name'] ?? '') . "\n";
 
             if (!empty($author['email'])) {
@@ -44,16 +49,24 @@ class Installer
     }
 
     /**
-     * 获取包名
+     * 获取包名（优先从 extra 配置获取，其次从调用方的 composer.json 获取）
      * @return string
      * @author siushin<siushin@163.com>
      */
     private static function getPackageName(): string
     {
-        if (file_exists($file = __DIR__ . '/../composer.json')) {
-            $data = json_decode(file_get_contents($file), true);
+        // 1. 尝试从 extra 配置获取（适用于 laravel-tool 调用）
+        $rootComposerPath = __DIR__ . '/../../../../composer.json';
+        if (file_exists($rootComposerPath)) {
+            $data = json_decode(file_get_contents($rootComposerPath), true);
+            if (isset($data['extra']['package-name'])) {
+                return $data['extra']['package-name'];
+            }
+            // 2. 尝试从调用方的 composer.json 获取 name（适用于其他包调用）
             return $data['name'] ?? '';
         }
+
+        // 3. 如果都没获取到，返回空（util 包自身安装时会走这个逻辑）
         return '';
     }
 
@@ -64,6 +77,7 @@ class Installer
      */
     private static function getPackageAuthors(): array
     {
+        // 从 util 包自身的 composer.json 获取作者信息
         if (file_exists($file = __DIR__ . '/../composer.json')) {
             $data = json_decode(file_get_contents($file), true);
             return $data['authors'] ?? [];
