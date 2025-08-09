@@ -5,43 +5,69 @@ namespace Siushin\Util;
 class Installer
 {
     /**
-     * 检测当前包版本
+     * composer命令运行安装钩子
      * @return void
      * @author siushin<siushin@163.com>
      */
     public static function postInstall(): void
     {
-        $version = self::detectVersion();
+        $packageName = self::getPackageName();
+        $authors = self::getPackageAuthors();
 
-        if ($version === 'dev-main') {
-            echo "\n\033[33m注意：您正在使用 siushin/util 的开发版本 (dev-main)\033[0m";
-            echo "\n\033[33m生产环境建议使用稳定版本：composer require siushin/util:^1.0\033[0m\n\n";
-        } elseif (str_contains($version, 'dev')) {
-            echo "\n\033[33m注意：您正在使用 siushin/util 的开发版本 ($version)\033[0m\n\n";
+        $startTag = str_repeat('*', 64);
+        echo "\n\033[32m$startTag\033[0m";
+        echo "\n\033[32m✨ \033[1m$packageName 安装成功！\033[0m\033[32m ✨\033[0m\n";
+        echo "\n\033[33m📦 温馨提示：\033[0m\n";
+        echo "\t\033[36m• 感谢使用 {$packageName} 扩展包\033[0m\n";
+        echo "\t\033[36m• 如有问题请参考文档或联系作者\033[0m\n";
+
+        if (!empty($authors)) {
+            echo "\n\033[34m🖋️ 作者信息：\033[0m\n";
+            $author = $authors[0]; // 直接取第一个作者
+            echo "\t\033[90m姓名：\033[0m " . ($author['name'] ?? '') . "\n";
+
+            if (!empty($author['email'])) {
+                echo "\t\033[90m邮箱：\033[0m \033[4m{$author['email']}\033[0m\n";
+            }
+
+            if (!empty($author['homepage'])) {
+                echo "\t\033[90m网址：\033[0m \033[4;94m{$author['homepage']}\033[0m\n";
+            }
+
+            if (!empty($author['role'])) {
+                echo "\t\033[90m角色：\033[0m {$author['role']}\n";
+            }
         }
+
+        echo "\n\033[32m🚀 祝您使用愉快！\033[0m";
+        echo "\n\033[32m$startTag\033[0m\n\n";
     }
 
     /**
-     * 从 composer.json 获取版本号
+     * 获取包名
      * @return string
      * @author siushin<siushin@163.com>
      */
-    private static function detectVersion(): string
+    private static function getPackageName(): string
     {
-        if (file_exists(__DIR__ . '/../composer.json')) {
-            $composer = json_decode(file_get_contents(__DIR__ . '/../composer.json'), true);
-
-            // 优先读取显式声明的 version 字段
-            if (isset($composer['version'])) {
-                return $composer['version'];
-            }
-
-            // 兼容旧版 composer（某些情况下 version 可能不存在）
-            if (isset($composer['extra']['branch-alias']['dev-main'])) {
-                return $composer['extra']['branch-alias']['dev-main'];
-            }
+        if (file_exists($file = __DIR__ . '/../composer.json')) {
+            $data = json_decode(file_get_contents($file), true);
+            return $data['name'] ?? '';
         }
+        return '';
+    }
 
-        return 'dev-main';
+    /**
+     * 获取作者信息
+     * @return array
+     * @author siushin<siushin@163.com>
+     */
+    private static function getPackageAuthors(): array
+    {
+        if (file_exists($file = __DIR__ . '/../composer.json')) {
+            $data = json_decode(file_get_contents($file), true);
+            return $data['authors'] ?? [];
+        }
+        return [];
     }
 }
