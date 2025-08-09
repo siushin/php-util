@@ -16,7 +16,7 @@ class Installer
         if ($version === 'dev-main') {
             echo "\n\033[33m注意：您正在使用 siushin/util 的开发版本 (dev-main)\033[0m";
             echo "\n\033[33m生产环境建议使用稳定版本：composer require siushin/util:^1.0\033[0m\n\n";
-        } elseif (strpos($version, 'dev') !== false) {
+        } elseif (str_contains($version, 'dev')) {
             echo "\n\033[33m注意：您正在使用 siushin/util 的开发版本 ($version)\033[0m\n\n";
         }
     }
@@ -42,6 +42,6 @@ class Installer
             }
         }
 
-        return 'dev-main'; // 默认返回值
+        return 'dev-main';
     }
 }
