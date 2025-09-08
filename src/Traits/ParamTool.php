@@ -82,9 +82,17 @@ trait ParamTool
                 // 将 前端 拼接符 @ 转回 &
                 $param = str_replace('@', '&', trim($params[$param_key] ?? '', $exp_type));
                 // 如果是xx=vv&xx=vv，则二次切割，返回键值对数组
+                // 匹配保留包含点号的键值对格式，如 name.id=1&name.name=2，将转换成 ["name.id" => 1, "name.name" => 2]
                 $pattern = '/^([\w\-.%]+=[\w\-.%]+(&?))+$/';
                 if (preg_match($pattern, $param)) {
-                    parse_str($param, $result);
+                    $result = [];
+                    // 先按 & 分割成多个键值对
+                    $pairs = explode('&', $param);
+                    foreach ($pairs as $pair) {
+                        // 再按 = 分割键和值
+                        list($key, $value) = explode('=', $pair, 2);
+                        $result[$key] = $value;
+                    }
                     break;
                 }
                 $param && $result = explode($exp_type, $param);
