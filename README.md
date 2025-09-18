@@ -36,7 +36,7 @@ src  源代码目录
 
 在使用过程中有任何想法、合作交流，请加我微信 `lintonggg` （备注 <mark>github</mark> ）：
 
-<img src="https://raw.githubusercontent.com/siushin/doc/refs/heads/main/docs/public/%E5%BE%AE%E4%BF%A1%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" alt="添加我微信备注「github」" style="width: 180px;" />
+<img src="https://www.siushin.com/src/%E5%BE%AE%E4%BF%A1%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" alt="添加我微信备注「github」" style="width: 180px;" />
 
 ## ☕️ 打赏赞助
 
