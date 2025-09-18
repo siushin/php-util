@@ -43,6 +43,6 @@ src  源代码目录
 如果你觉得知识对您有帮助，可以请作者喝一杯咖啡 ☕️
 
 <div class="coffee" style="display: flex;align-items: center;margin-top: 20px;">
-<img src="https://raw.githubusercontent.com/siushin/doc/refs/heads/main/docs/public/%E5%BE%AE%E4%BF%A1%E6%94%B6%E6%AC%BE%E7%A0%81.jpg" alt="微信收款码" style="width: 180px;margin-right: 80px;" />
-<img src="https://raw.githubusercontent.com/siushin/doc/refs/heads/main/docs/public/%E6%94%AF%E4%BB%98%E5%AE%9D%E6%94%B6%E6%AC%BE%E7%A0%81.jpg" alt="支付宝收款码" style="width: 180px;" />
+<img src="https://www.siushin.com/src/%E5%BE%AE%E4%BF%A1%E6%94%B6%E6%AC%BE%E7%A0%81.jpg" alt="微信收款码" style="width: 180px;margin-right: 80px;" />
+<img src="https://www.siushin.com/src/%E6%94%AF%E4%BB%98%E5%AE%9D%E6%94%B6%E6%AC%BE%E7%A0%81.jpg" alt="支付宝收款码" style="width: 180px;" />
 </div>
