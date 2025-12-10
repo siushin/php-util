@@ -10,6 +10,10 @@
  * @param string $joiner    连接符
  * @param string $separator 分隔符
  * @return string
+ * @example
+ * $arr = ['name' => 'Tom', 'age' => 20];
+ * array_to_string_chain($arr); // "name:Tom,age:20"
+ * array_to_string_chain($arr, '=', '&'); // "name=Tom&age=20"
  * @author siushin<siushin@163.com>
  */
 function array_to_string_chain(array $array, string $joiner = ':', string $separator = ','): string
@@ -23,6 +27,10 @@ function array_to_string_chain(array $array, string $joiner = ':', string $separ
  * @param string $joiner    连接符
  * @param string $separator 分隔符
  * @return string
+ * @example
+ * enum Status { case ACTIVE; case INACTIVE; }
+ * $enums = [Status::ACTIVE, Status::INACTIVE];
+ * enum_to_string_chain($enums); // "ACTIVE:ACTIVE,INACTIVE:INACTIVE"
  * @author siushin<siushin@163.com>
  */
 function enum_to_string_chain(array $array, string $joiner = ':', string $separator = ','): string
@@ -35,6 +43,11 @@ function enum_to_string_chain(array $array, string $joiner = ':', string $separa
  * @param array  $enum
  * @param string $response_type
  * @return array
+ * @example
+ * enum Status { case ACTIVE; case INACTIVE; }
+ * $enums = [Status::ACTIVE, Status::INACTIVE];
+ * enum_to_array($enums, 'object'); // ['ACTIVE' => 'ACTIVE', 'INACTIVE' => 'INACTIVE']
+ * enum_to_array($enums, 'array'); // [['name' => 'ACTIVE', 'value' => 'ACTIVE'], ...]
  * @author siushin<siushin@163.com>
  */
 function enum_to_array(array $enum, string $response_type = 'object'): array
@@ -55,6 +68,10 @@ function enum_to_array(array $enum, string $response_type = 'object'): array
  * @param array $array
  * @param array $arrays
  * @return array
+ * @example
+ * $arr1 = [1, 2, 3, 4, 5];
+ * $arr2 = [2, 4];
+ * user_array_diff($arr1, $arr2); // [1, 3, 5]
  * @author siushin<siushin@163.com>
  */
 function user_array_diff(array $array, array $arrays): array
@@ -68,6 +85,14 @@ function user_array_diff(array $array, array $arrays): array
  * @param string|int|null $column_key
  * @param string|int|null $index_key
  * @return array
+ * @example
+ * $users = [
+ *     ['id' => 1, 'name' => 'Tom', 'age' => 20],
+ *     ['id' => 2, 'name' => 'Jerry', 'age' => 25],
+ *     ['id' => 3, 'name' => 'Tom', 'age' => 30]
+ * ];
+ * user_array_column_unique($users, 'name'); // ['Jerry', 'Tom']
+ * user_array_column_unique($users, 'age'); // [20, 25, 30]
  * @author siushin<siushin@163.com>
  */
 function user_array_column_unique(array $array, string|int|null $column_key, string|int|null $index_key = null): array
@@ -83,6 +108,12 @@ function user_array_column_unique(array $array, string|int|null $column_key, str
  * @param array       $data
  * @param string|null $key
  * @return array
+ * @example
+ * $arr = ['a' => 1, 'b' => 2, 'c' => 3];
+ * $new = ['x' => 10, 'y' => 20];
+ * array_push_by_key($arr, $new, 'b');
+ * // ['a' => 1, 'b' => 2, 'x' => 10, 'y' => 20, 'c' => 3]
+ * array_push_by_key($arr, $new); // ['a' => 1, 'b' => 2, 'c' => 3, 'x' => 10, 'y' => 20]
  * @author siushin<siushin@163.com>
  */
 function array_push_by_key(array $array, array $data = [], string $key = null): array
@@ -98,6 +129,9 @@ function array_push_by_key(array $array, array $data = [], string $key = null): 
  * @param array $array
  * @param array $get_keys
  * @return array
+ * @example
+ * $arr = ['id' => 1, 'name' => 'Tom', 'age' => 20, 'email' => 'tom@example.com'];
+ * user_get_fields_array($arr, ['name', 'age']); // ['name' => 'Tom', 'age' => 20]
  * @author siushin<siushin@163.com>
  */
 function user_get_fields_array(array $array, array $get_keys): array
@@ -110,6 +144,9 @@ function user_get_fields_array(array $array, array $get_keys): array
  * @param array $array
  * @param array $remove_keys
  * @return array
+ * @example
+ * $arr = ['id' => 1, 'name' => 'Tom', 'age' => 20, 'password' => '123456'];
+ * user_filter_array($arr, ['password', 'age']); // ['id' => 1, 'name' => 'Tom']
  * @author siushin<siushin@163.com>
  */
 function user_filter_array(array $array, array $remove_keys): array
@@ -122,6 +159,13 @@ function user_filter_array(array $array, array $remove_keys): array
  * @param array $array2
  * @param array $remove_keys
  * @return array
+ * @example
+ * $arr2 = [
+ *     ['id' => 1, 'name' => 'Tom', 'password' => '123'],
+ *     ['id' => 2, 'name' => 'Jerry', 'password' => '456']
+ * ];
+ * user_filter_array2($arr2, ['password']);
+ * // [['id' => 1, 'name' => 'Tom'], ['id' => 2, 'name' => 'Jerry']]
  * @author siushin<siushin@163.com>
  */
 function user_filter_array2(array $array2, array $remove_keys): array
@@ -137,6 +181,11 @@ function user_filter_array2(array $array2, array $remove_keys): array
  * @param array $newData
  * @param array $oldData
  * @return array
+ * @example
+ * $new = ['id' => 1, 'name' => 'Tom', 'age' => 25];
+ * $old = ['id' => 1, 'name' => 'Tom', 'age' => 20];
+ * compareArray($new, $old); // ['new' => ['age' => 25], 'old' => ['age' => 20]]
+ * compareArray($new, $new); // []
  * @author siushin<siushin@163.com>
  */
 function compareArray(array $newData, array $oldData): array

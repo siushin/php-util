@@ -7,6 +7,9 @@
 /**
  * 获取当前时间、时间戳数组
  * @return array
+ * @example
+ * getDateTimeArr();
+ * // ['time' => 1704067200, 'datetime' => '2025-01-01 00:00:00']
  * @author siushin<siushin@163.com>
  */
 function getDateTimeArr(): array
@@ -22,6 +25,11 @@ function getDateTimeArr(): array
  * @param string $endDate
  * @param string $sort
  * @return array
+ * @example
+ * genDateListByRange('2025-01-01', '2025-01-05');
+ * // ['2025-01-01', '2025-01-02', '2025-01-03', '2025-01-04', '2025-01-05']
+ * genDateListByRange('2025-01-01', '2025-01-05', 'desc');
+ * // ['2025-01-05', '2025-01-04', '2025-01-03', '2025-01-02', '2025-01-01']
  * @author siushin<siushin@163.com>
  */
 function genDateListByRange(string $startDate, string $endDate, string $sort = 'asc'): array
@@ -40,6 +48,11 @@ function genDateListByRange(string $startDate, string $endDate, string $sort = '
  * 验证是否是日期
  * @param $date
  * @return bool
+ * @example
+ * validateDate('2025-01-01'); // true
+ * validateDate('2025-13-01'); // false
+ * validateDate('2025/01/01'); // false
+ * validateDate('invalid'); // false
  * @author siushin<siushin@163.com>
  */
 function validateDate($date): bool
@@ -54,6 +67,11 @@ function validateDate($date): bool
  * @param $endAt
  * @return bool
  * @throws Exception
+ * @example
+ * isCurrentTimeWithinRange('2025-01-01 00:00:00', '2025-12-31 23:59:59');
+ * // 如果当前时间在2025年内，返回 true，否则返回 false
+ * isCurrentTimeWithinRange('2025-01-01', '2025-01-31');
+ * // 判断当前日期是否在1月份
  * @author siushin<siushin@163.com>
  */
 function isCurrentTimeWithinRange($startAt, $endAt): bool
@@ -70,6 +88,11 @@ function isCurrentTimeWithinRange($startAt, $endAt): bool
  * @param string $suffix
  * @param bool   $with_timestamp_suffix
  * @return string
+ * @example
+ * buildDateFilePath('report', 'pdf');
+ * // "/202501/report_20250101120000.pdf"
+ * buildDateFilePath('log', 'txt', false);
+ * // "/202501/log.txt"
  * @author siushin<siushin@163.com>
  */
 function buildDateFilePath(string $filename, string $suffix, bool $with_timestamp_suffix = true): string

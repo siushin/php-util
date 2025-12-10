@@ -12,6 +12,14 @@
  * @param string $end_placeholder
  * @param int    $char_num
  * @return void
+ * @example
+ * user_dump(['name' => 'Tom', 'age' => 20], 'User Info');
+ * // 输出：
+ * // <<<<<<<<<<<<<<<< User Info <<<<<<<<<<<<<<<<
+ * // array(2) { ["name"]=> string(3) "Tom" ["age"]=> int(20) }
+ * // >>>>>>>>>>>>>>>> User Info >>>>>>>>>>>>>>>>
+ * user_dump('test', 'DEBUG', '=', '=', 10);
+ * // 使用 = 作为占位符，10个字符
  * @author siushin<siushin@163.com>
  */
 function user_dump(mixed $data, string $flag = '', string $start_placeholder = '<', string $end_placeholder = '>', int $char_num = 16): void

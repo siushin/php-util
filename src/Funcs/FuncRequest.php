@@ -11,6 +11,11 @@
  * @param array  $queryData
  * @return string
  * @throws Exception
+ * @example
+ * httpBuildUrl('https://example.com', 'api/users', ['page' => 1, 'limit' => 10]);
+ * // "https://example.com/api/users?page=1&limit=10"
+ * httpBuildUrl('https://example.com/api?old=1', '', ['new' => 2]);
+ * // "https://example.com/api?old=1&new=2"
  * @author siushin<siushin@163.com>
  */
 function httpBuildUrl(string $url, string $path = '', array $queryData = []): string
@@ -49,6 +54,12 @@ function httpBuildUrl(string $url, string $path = '', array $queryData = []): st
  * @param array $extend_data
  * @return array
  * @throws Exception
+ * @example
+ * $ch = curl_init('https://api.example.com/data');
+ * $headers = ['Authorization' => 'Bearer token123'];
+ * $extend = ['cookie_file' => '/tmp/cookies.txt'];
+ * $result = baseHandleCurl($ch, $headers, $extend);
+ * // 返回解析后的JSON数组
  * @author siushin<siushin@163.com>
  */
 function baseHandleCurl($ch, array $headers = [], array $extend_data = []): array
@@ -103,6 +114,11 @@ function baseHandleCurl($ch, array $headers = [], array $extend_data = []): arra
  * @param array  $extend_data
  * @return array
  * @throws Exception
+ * @example
+ * $result = httpGet('https://api.example.com/users', ['page' => 1, 'limit' => 10]);
+ * // 发送 GET 请求到 https://api.example.com/users?page=1&limit=10
+ * $result = httpGet('https://api.example.com/data', [], ['Authorization' => 'Bearer token']);
+ * // 带自定义请求头
  * @author siushin<siushin@163.com>
  */
 function httpGet(string $url, array $queryData = [], array $headers = [], array $extend_data = []): array
@@ -125,6 +141,13 @@ function httpGet(string $url, array $queryData = [], array $headers = [], array 
  * @param array  $extend_data
  * @return array
  * @throws Exception
+ * @example
+ * // Form表单提交
+ * httpPost('https://api.example.com/users', ['name' => 'Tom', 'age' => 20], [], 'form');
+ * // JSON提交
+ * httpPost('https://api.example.com/users', ['name' => 'Tom'], [], 'json');
+ * // Query字符串提交
+ * httpPost('https://api.example.com/users', ['name' => 'Tom'], [], 'query');
  * @author siushin<siushin@163.com>
  */
 function httpPost(string $url, array $postData = [], array $headers = [], string $field_type = 'form', array $extend_data = []): array
@@ -156,6 +179,9 @@ function httpPost(string $url, array $postData = [], array $headers = [], string
  * @param array  $extend_data
  * @return array
  * @throws Exception
+ * @example
+ * httpQueryPost('https://api.example.com/users', ['name' => 'Tom', 'age' => 20]);
+ * // POST 请求，参数以 query string 形式发送
  * @author siushin<siushin@163.com>
  */
 function httpQueryPost(string $url, array $queryData = [], array $headers = [], array $extend_data = []): array
@@ -164,13 +190,18 @@ function httpQueryPost(string $url, array $queryData = [], array $headers = [], 
 }
 
 /**
- * Post请求（post方式）
+ * Post请求（JSON方式）
  * @param string $url
  * @param array  $jsonData
  * @param array  $headers
  * @param array  $extend_data
  * @return array
  * @throws Exception
+ * @example
+ * httpJsonPost('https://api.example.com/users', ['name' => 'Tom', 'age' => 20]);
+ * // POST 请求，数据以 JSON 格式发送，Content-Type: application/json
+ * httpJsonPost('https://api.example.com/users', ['name' => 'Tom'], ['X-API-Key' => 'secret']);
+ * // 带自定义请求头
  * @author siushin<siushin@163.com>
  */
 function httpJsonPost(string $url, array $jsonData = [], array $headers = [], array $extend_data = []): array
