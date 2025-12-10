@@ -27,7 +27,7 @@ function array_to_string_chain(array $array, string $joiner = ':', string $separ
  */
 function enum_to_string_chain(array $array, string $joiner = ':', string $separator = ','): string
 {
-    return implode($separator, array_map(fn($item) => $item->name . $joiner . $item->value, $array, $array));
+    return implode($separator, array_map(fn($item) => $item->name . $joiner . $item->value, $array));
 }
 
 /**
@@ -44,7 +44,7 @@ function enum_to_array(array $enum, string $response_type = 'object'): array
         match ($response_type) {
             'object' => $array[$item->name] = $item->value,
             'array' => $array[] = ['name' => $item->name, 'value' => $item->value],
-            default => []
+            default => null
         };
     }
     return $array;
@@ -87,8 +87,8 @@ function user_array_column_unique(array $array, string|int|null $column_key, str
  */
 function array_push_by_key(array $array, array $data = [], string $key = null): array
 {
-    $offset = ($key ? array_search($key, array_keys($array)) : false) ?: false;
-    return $offset ?
+    $offset = $key ? array_search($key, array_keys($array)) : false;
+    return ($offset !== false) ?
         array_merge(array_slice($array, 0, $offset + 1), $data, array_slice($array, $offset + 1)) :
         array_merge($array, $data);
 }

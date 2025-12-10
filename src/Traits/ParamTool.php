@@ -72,7 +72,9 @@ trait ParamTool
                 $param_type = $param_type ?: 'int';
                 foreach ($result as &$item) {
                     if ($param_type == 'int') {
-                        !preg_match('/^[0-9]\d*$/', $item) && throw_exception("参数有误：$param_key");
+                        if (!preg_match('/^[0-9]\d*$/', $item)) {
+                            throw_exception("参数有误：$param_key");
+                        }
                         $item = (int)$item;
                     }
                 }

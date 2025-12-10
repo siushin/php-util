@@ -10,6 +10,7 @@
  * @param string $path
  * @param array  $queryData
  * @return string
+ * @throws Exception
  * @author siushin<siushin@163.com>
  */
 function httpBuildUrl(string $url, string $path = '', array $queryData = []): string
@@ -31,6 +32,11 @@ function httpBuildUrl(string $url, string $path = '', array $queryData = []): st
     $path = explode('/', trim($path, '/'));
     // 合并path重组，并去掉尾部斜杆/
     $full_path = rtrim('/' . ltrim(implode('/', array_merge($url_path, $path)), '/'), '/');
+
+    if (!isset($parsedUrl['scheme']) || !isset($parsedUrl['host'])) {
+        throw_exception('无效的URL：缺少协议或主机');
+    }
+
     $baseUrl = $parsedUrl['scheme'] . '://' . $parsedUrl['host'] . $full_path;
 
     return $newQueryString ? $baseUrl . '?' . $newQueryString : $baseUrl;
@@ -125,7 +131,7 @@ function httpPost(string $url, array $postData = [], array $headers = [], string
 {
     if ($field_type == 'json') {
         $postData = json_encode($postData);
-        $headers['Content'] = 'application/json; charset=utf-8';
+        $headers['Content-Type'] = 'application/json; charset=utf-8';
     } else if ($field_type == 'query') {
         $postData = http_build_query($postData);
     } else if ($field_type == 'form') {
