@@ -17,6 +17,7 @@
         "files": [
             "src/Funcs/FuncArray.php",
             "src/Funcs/FuncDateTime.php",
+            "src/Funcs/FuncHelper.php",
             "src/Funcs/FuncLog.php",
             "src/Funcs/FuncRequest.php"
         ]

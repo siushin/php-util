@@ -29,7 +29,7 @@ class Installer
         if (!empty($authors)) {
             echo "\n\033[34m🖋️ 作者信息：\033[0m\n";
             $author = $authors[0];
-            echo "\t\033[90m姓名：\033[0m " . ($author['name'] ?? '') . "\n";
+            echo "\t\033[90m微信：\033[0m " . ($author['name'] ?? '') . "\n";
 
             if (!empty($author['email'])) {
                 echo "\t\033[90m邮箱：\033[0m \033[4m{$author['email']}\033[0m\n";
