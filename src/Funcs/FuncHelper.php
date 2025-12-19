@@ -127,3 +127,34 @@ function generateId(?int $datacenterId = null, ?int $workerId = null): string
         return (string)$id;
     }
 }
+
+/**
+ * 去除数组中值为空的元素
+ *
+ * 空的判断规则：
+ * - 字符串类型：去除首尾空白字符后，如果为空字符串则视为空
+ * - 其他类型：按照 PHP empty() 规则判断
+ *
+ * @param array $params 待处理的数组
+ * @return array 处理后的数组
+ * @author siushin<siushin@163.com>
+ */
+function trimParam(array $params): array
+{
+    $result = [];
+
+    foreach ($params as $key => $value) {
+        // 如果是字符串，先 trim 后判断是否为空
+        if (is_string($value)) {
+            $trimmedValue = trim($value);
+            if ($trimmedValue !== '') {
+                $result[$key] = $value;
+            }
+        } // 其他类型按照 empty() 规则判断
+        elseif (!empty($value)) {
+            $result[$key] = $value;
+        }
+    }
+
+    return $result;
+}
