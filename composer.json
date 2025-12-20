@@ -38,5 +38,8 @@
         "post-update-cmd": [
             "Siushin\\Util\\Installer::postInstall"
         ]
+    },
+    "require-dev": {
+        "beyondcode/laravel-dump-server": "^2.1"
     }
 }
