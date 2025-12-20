@@ -165,3 +165,20 @@ function trimParam(array $params): array
     }
     return $result;
 }
+
+/**
+ * 格式化文件大小
+ * @param int $bytes     字节数
+ * @param int $precision 精度（小数位数）
+ * @return string 格式化后的文件大小
+ * @author siushin<siushin@163.com>
+ */
+function formatBytes(int $bytes, int $precision = 2): string
+{
+    $units = ['B', 'KB', 'MB', 'GB', 'TB'];
+    $bytes = max($bytes, 0);
+    $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
+    $pow = min($pow, count($units) - 1);
+    $bytes /= pow(1024, $pow);
+    return round($bytes, $precision) . ' ' . $units[$pow];
+}
