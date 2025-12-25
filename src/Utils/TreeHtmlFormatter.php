@@ -38,6 +38,7 @@ namespace Siushin\Util\Utils;
  *     'id_field'       => 'organization_id',
  *     'title_field'    => 'organization_name',
  *     'children_field' => 'children',
+ *     'output_id'      => 'organization_id',
  *     'output_title'   => 'organization_name',
  *     'fields'         => ['organization_id', 'organization_name'],
  * ]);
@@ -49,7 +50,23 @@ namespace Siushin\Util\Utils;
  * //     ['organization_id' => 3, 'organization_name' => '│  └─ 深圳市']
  * // ]
  *
- * // 示例3：使用静态方法快速格式化
+ * // 示例3：自定义输出ID字段名（原始ID字段与输出ID字段不同）
+ * $formatter = new TreeHtmlFormatter([
+ *     'id_field'       => 'organization_id',  // 原始ID字段名
+ *     'output_id'      => 'id',                // 输出ID字段名
+ *     'title_field'    => 'organization_name',
+ *     'output_title'   => 'title',
+ *     'fields'         => ['id', 'title'],     // 即使fields中没有organization_id，也会自动包含id
+ * ]);
+ * $result = $formatter->format($treeData);
+ * // 返回：
+ * // [
+ * //     ['id' => 1, 'title' => '中国'],
+ * //     ['id' => 2, 'title' => '├─ 广东省'],
+ * //     ['id' => 3, 'title' => '│  └─ 深圳市']
+ * // ]
+ *
+ * // 示例4：使用静态方法快速格式化
  * $result = TreeHtmlFormatter::formatTree($treeData, [
  *     'title_field' => 'name',
  *     'fields'      => ['id', 'name'],
@@ -66,6 +83,7 @@ class TreeHtmlFormatter
         'id_field'       => 'id',           // ID字段名
         'title_field'    => 'title',        // 标题字段名
         'children_field' => 'children',     // 子节点字段名
+        'output_id'      => null,           // 输出ID字段名，null表示使用id_field的值
         'output_title'   => 'title',        // 输出标题字段名
         'indent_prefix'  => '│  ',          // 缩进前缀
         'branch_middle'  => '├─ ',          // 中间分支符号
@@ -85,6 +103,7 @@ class TreeHtmlFormatter
      *                      - id_field: ID字段名，默认 'id'
      *                      - title_field: 标题字段名，默认 'title'
      *                      - children_field: 子节点字段名，默认 'children'
+     *                      - output_id: 输出ID字段名，null表示使用id_field的值，默认 null
      *                      - output_title: 输出标题字段名，默认 'title'
      *                      - indent_prefix: 缩进前缀，默认 '│  '
      *                      - branch_middle: 中间分支符号，默认 '├─ '
@@ -94,6 +113,10 @@ class TreeHtmlFormatter
     public function __construct(array $config = [])
     {
         $this->config = array_merge(self::DEFAULT_CONFIG, $config);
+        // 如果 output_id 未指定，使用 id_field 的值
+        if ($this->config['output_id'] === null) {
+            $this->config['output_id'] = $this->config['id_field'];
+        }
     }
 
     /**
@@ -143,12 +166,29 @@ class TreeHtmlFormatter
             // 移除children字段，因为扁平化列表不需要树形结构
             unset($formattedItem[$childrenField]);
 
+            // 处理ID字段：如果输出ID字段名与原始ID字段名不同，需要重命名
+            $idField = $this->config['id_field'];
+            $outputId = $this->config['output_id'];
+            if ($idField !== $outputId) {
+                // 如果输出ID字段名不同，需要重命名
+                if (isset($formattedItem[$idField])) {
+                    $formattedItem[$outputId] = $formattedItem[$idField];
+                    // 移除原始ID字段
+                    unset($formattedItem[$idField]);
+                }
+            }
+
             // 设置格式化后的标题
             $formattedItem[$this->config['output_title']] = $currentPrefix . $originalTitle;
 
             // 如果指定了字段列表，只保留指定的字段
             $fields = $this->config['fields'];
             if (is_array($fields) && !empty($fields)) {
+                // 确保 output_id 字段始终包含在返回的字段中
+                if (!in_array($outputId, $fields)) {
+                    $fields[] = $outputId;
+                }
+
                 // 确保 output_title 字段始终包含在返回的字段中
                 $outputTitle = $this->config['output_title'];
                 if (!in_array($outputTitle, $fields)) {
