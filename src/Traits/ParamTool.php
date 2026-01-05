@@ -212,7 +212,7 @@ trait ParamTool
      * @param array  $keys      只在指定的键中检查（空数组表示检查所有键）
      * @param array  $values    需要移除的值列表（默认移除：'', null, 'null'）
      * @param bool   $recursive 是否递归处理嵌套数组（默认false）
-     * @param bool   $strict    是否严格比较值（默认false，如0=='0'）
+     * @param bool   $strict    是否严格比较键（默认false）。值的比较始终使用严格比较（===）以避免将0误判为空字符串
      * @return array 处理后的数组（同时会修改原数组）
      * @author siushin<siushin@163.com>
      */
@@ -235,8 +235,14 @@ trait ParamTool
             $shouldProcess = empty($keys) || in_array($key, $keys, $strict);
 
             // 如果值在移除列表中，则移除该键值对
-            if ($shouldProcess && in_array($item, $values, $strict)) {
-                unset($array[$key]);
+            // 使用严格比较（===）避免将0误判为空字符串等
+            if ($shouldProcess) {
+                foreach ($values as $removeValue) {
+                    if ($item === $removeValue) {
+                        unset($array[$key]);
+                        break;
+                    }
+                }
             }
         }
 
