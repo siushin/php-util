@@ -150,11 +150,22 @@ trait ParamTool
         $only_empty_check = $params['only_empty_check'] ?? $only_empty_check;
         foreach ($check_fields as $field) {
             $only_empty_check && ($is_strict_check_empty = in_array($field, $only_empty_check));
-            if (
-                !array_key_exists($field, $params) ||
-                ($is_strict_check_empty && !strlen((string)$params[$field]))
-            ) {
+            if (!array_key_exists($field, $params)) {
                 throw_exception("缺少{$field}参数值");
+            }
+            if ($is_strict_check_empty) {
+                $value = $params[$field];
+                // 如果是数组，判断是否为空数组
+                if (is_array($value)) {
+                    if (empty($value)) {
+                        throw_exception("缺少{$field}参数值");
+                    }
+                } else {
+                    // 非数组，按原逻辑判断是否为空字符串
+                    if (!strlen((string)$value)) {
+                        throw_exception("缺少{$field}参数值");
+                    }
+                }
             }
         }
     }
